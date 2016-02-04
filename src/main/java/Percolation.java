@@ -6,6 +6,7 @@ public class Percolation
     private final boolean[][] isOpen;
     private final int size;
     private WeightedQuickUnionUF weightedQuickUnionUF;
+    private WeightedQuickUnionUF weightedQuickUnionUF2;
 
     public Percolation(int size)
     {
@@ -26,6 +27,12 @@ public class Percolation
         for (int i = 0; i < size; i++)
         {
             weightedQuickUnionUF.union(getLinearAddress(size - 1, i), getBottomPseudoSiteLinearAddress());
+        }
+
+        weightedQuickUnionUF2 = new WeightedQuickUnionUF((size * size) + 1);
+        for (int i = 0; i < size; i++)
+        {
+            weightedQuickUnionUF2.union(getLinearAddress(0, i), getTopPseudoSiteLinearAddress());
         }
     }
 
@@ -59,6 +66,7 @@ public class Percolation
         if (isOpen(row, column) && isOpen(row2, column2))
         {
             weightedQuickUnionUF.union(getLinearAddress(row, column), getLinearAddress(row2, column2));
+            weightedQuickUnionUF2.union(getLinearAddress(row, column), getLinearAddress(row2, column2));
         }
     }
 
@@ -95,7 +103,7 @@ public class Percolation
         }
 
         return isOpen(row, column) &&
-            weightedQuickUnionUF.connected(getLinearAddress(row, column), getTopPseudoSiteLinearAddress());
+            weightedQuickUnionUF2.connected(getLinearAddress(row, column), getTopPseudoSiteLinearAddress());
     }
 
     public boolean percolates()
