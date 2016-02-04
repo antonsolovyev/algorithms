@@ -5,24 +5,7 @@ import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats
 {
-    public static void main(String[] args)
-    {
-        if (args.length < 2)
-        {
-            throw new IllegalArgumentException("Two parameters required, lattice size and experiment count");
-        }
-
-        Integer size = Integer.parseInt(args[0]);
-        Integer count = Integer.parseInt(args[1]);
-
-        PercolationStats percolationStats = new PercolationStats(size, count);
-
-        StdOut.println("mean                    = " + percolationStats.mean());
-        StdOut.println("stddev                  = " + percolationStats.stddev);
-        StdOut.println("95% confidence interval = " + percolationStats.confidenceLo() + ", " +
-            percolationStats.confidenceHi());
-    }
-
+    //J-
     private final int size;
     private final int count;
     private double[] samples;
@@ -30,6 +13,24 @@ public class PercolationStats
     private double stddev;
     private double confidenceLo;
     private double confidenceHi;
+
+    public static void main(String[] args)
+    {
+        if (args.length < 2)
+        {
+            throw new IllegalArgumentException("Two parameters required, lattice size and experiment count");
+        }
+
+        int size = Integer.parseInt(args[0]);
+        int count = Integer.parseInt(args[1]);
+
+        PercolationStats percolationStats = new PercolationStats(size, count);
+
+        StdOut.println("mean                    = " + percolationStats.mean());
+        StdOut.println("stddev                  = " + percolationStats.stddev);
+        StdOut.println("95% confidence interval = " + percolationStats.confidenceLo() + ", " +
+                percolationStats.confidenceHi());
+    }
 
     public PercolationStats(int size, int count)
     {
@@ -62,25 +63,25 @@ public class PercolationStats
         confidenceLo = mean - getHalf95ConfidenceInterval(stddev);
     }
 
-    private double getHalf95ConfidenceInterval(double stddev)
+    private double getHalf95ConfidenceInterval(double standardDeviation)
     {
-        return stddev * 1.96 / Math.sqrt(count);
+        return standardDeviation * 1.96 / Math.sqrt(count);
     }
 
     private double getSample()
     {
         Percolation percolation = new Percolation(size);
-        for (int count = 0; count < (size * size);)
+        for (int siteCount = 0; siteCount < (size * size);)
         {
-            int row = StdRandom.uniform(size);
-            int column = StdRandom.uniform(size);
+            int row = StdRandom.uniform(size) + 1;
+            int column = StdRandom.uniform(size) + 1;
             if (!percolation.isOpen(row, column))
             {
                 percolation.open(row, column);
-                count++;
+                siteCount++;
                 if (percolation.percolates())
                 {
-                    return ((double) count) / (size * size);
+                    return ((double) siteCount) / (size * size);
                 }
             }
         }
@@ -107,4 +108,5 @@ public class PercolationStats
     {
         return confidenceHi;
     }
+    //J+
 }

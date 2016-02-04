@@ -15,25 +15,28 @@ public class Percolation
             throw new IllegalArgumentException("Non-positive lattice size");
         }
 
+        // NB: the following is 1-based :(
+        size += 1;
+
         this.size = size;
 
         isOpen = new boolean[size][size];
 
         weightedQuickUnionUF = new WeightedQuickUnionUF((size * size) + 2);
-        for (int i = 0; i < size; i++)
-        {
-            weightedQuickUnionUF.union(getLinearAddress(0, i), getTopPseudoSiteLinearAddress());
-        }
-        for (int i = 0; i < size; i++)
-        {
-            weightedQuickUnionUF.union(getLinearAddress(size - 1, i), getBottomPseudoSiteLinearAddress());
-        }
+//        for (int i = 0; i < size; i++)
+//        {
+//            weightedQuickUnionUF.union(getLinearAddress(1, i), getTopPseudoSiteLinearAddress());
+//        }
+//        for (int i = 0; i < size; i++)
+//        {
+//            weightedQuickUnionUF.union(getLinearAddress(size - 1, i), getBottomPseudoSiteLinearAddress());
+//        }
 
         weightedQuickUnionUF2 = new WeightedQuickUnionUF((size * size) + 1);
-        for (int i = 0; i < size; i++)
-        {
-            weightedQuickUnionUF2.union(getLinearAddress(0, i), getTopPseudoSiteLinearAddress());
-        }
+//        for (int i = 0; i < size; i++)
+//        {
+//            weightedQuickUnionUF2.union(getLinearAddress(1, i), getTopPseudoSiteLinearAddress());
+//        }
     }
 
     public void open(int row, int column)
@@ -54,6 +57,17 @@ public class Percolation
         connect(row, column, row, column + 1);
         connect(row, column, row - 1, column);
         connect(row, column, row + 1, column);
+
+        if (row == 1)
+        {
+            weightedQuickUnionUF.union(getLinearAddress(row, column), getTopPseudoSiteLinearAddress());
+            weightedQuickUnionUF2.union(getLinearAddress(row, column), getTopPseudoSiteLinearAddress());
+        }
+
+        if (row == (size - 1))
+        {
+            weightedQuickUnionUF.union(getLinearAddress(row, column), getBottomPseudoSiteLinearAddress());
+        }
     }
 
     private void connect(int row, int column, int row2, int column2)
@@ -113,6 +127,6 @@ public class Percolation
 
     private boolean validRowColumn(int row, int column)
     {
-        return (row >= 0) && (row < size) && (column >= 0) && (column < size);
+        return (row > 0) && (row < size) && (column > 0) && (column < size);
     }
 }
