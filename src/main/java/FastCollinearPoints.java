@@ -35,6 +35,7 @@ public class FastCollinearPoints
 
             Comparator<Point> comparator = p.slopeOrder();
 
+            Arrays.sort(points, 0, i, comparator);
             Arrays.sort(points, i + 1, points.length, comparator);
 
             for (int j = i + 1, length = 1; j < points.length; j++)
@@ -48,14 +49,18 @@ public class FastCollinearPoints
                 {
                     if (length >= 3)
                     {
-                        Point[] collinear = new Point[length + 1];
-                        collinear[0] = points[i];
-                        for (int k = 0; k < length; k++)
+                        int res = Arrays.binarySearch(points, 0, i, points[j], comparator);
+                        if (res < 0)
                         {
-                            collinear[k + 1] = points[j - k];
+                            Point[] collinear = new Point[length + 1];
+                            collinear[0] = points[i];
+                            for (int k = 0; k < length; k++)
+                            {
+                                collinear[k + 1] = points[j - k];
+                            }
+                            Arrays.sort(collinear);
+                            addSegment(new LineSegment(collinear[0], collinear[collinear.length - 1]));
                         }
-                        Arrays.sort(collinear);
-                        addSegment(new LineSegment(collinear[0], collinear[collinear.length - 1]));
                     }
                     length = 1;
                 }

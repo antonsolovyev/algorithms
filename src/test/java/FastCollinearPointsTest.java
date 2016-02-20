@@ -1,8 +1,6 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -262,7 +260,8 @@ public class FastCollinearPointsTest
     {
         Point[] points = readPoints("input9.txt");
         FastCollinearPoints fastCollinearPoints = new FastCollinearPoints(points);
-        System.out.println(Arrays.asList(fastCollinearPoints.segments()));
+        // System.out.println(Arrays.asList(fastCollinearPoints.segments()));
+        assertEquals(1, fastCollinearPoints.numberOfSegments());
     }
 
 //    @Test
