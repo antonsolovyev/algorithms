@@ -4,10 +4,17 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.solovyev</groupId>
     <artifactId>algorithms</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>algorithms</name>
     <url>http://maven.apache.org</url>
+
+    <modules>
+        <module>algorithms-week1</module>
+        <module>algorithms-week2</module>
+        <module>algorithms-week3</module>
+        <module>algorithms-week4</module>
+    </modules>
     
     <build>
         <plugins>
