@@ -278,7 +278,6 @@ public class KdTree
         }
 
         double mindist = nearest.distanceSquaredTo(target);
-
         if (current.distanceSquaredTo(target) > mindist)
         {
             return nearest;
